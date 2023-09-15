@@ -9,21 +9,22 @@ export class TodoListComponent {
   editableId: number | null = null;
   newTask: string = '';
   tasks: any[] = [
-
-  {
-    title: 'crear la lista de tareas',
-  },
-
-  {
-    title: 'Realizar la estructura HTML',
-    completed: true,
-  },
-
-  {
-    title: 'Desplegar el proyecto en la web',
-    completed: false,
-  },
+    {
+      title: 'Crear la lista de tareas',
+      completed: true,
+    },
+    {
+      title: 'Realizar la estructura HTML',
+      completed: true,
+    },
+    {
+      title: 'Desplegar el proyecto en la web',
+      completed: false,
+    },
   ];
+
+  searchTerm: string = ''; // Propiedad para almacenar el término de búsqueda
+
 
   addTask() {
     const task = {
@@ -31,8 +32,9 @@ export class TodoListComponent {
       completed: false,
     }
     this.tasks.push(task);
+    this.newTask = '';
   }
-
+  
   updateTask(task: any, title: string) {
     const index = this.tasks.indexOf(task);
     const updateTask = {
@@ -46,6 +48,7 @@ export class TodoListComponent {
     const index = this.tasks.indexOf(task);
     this.tasks.splice(index, 1);
   }
+
   startEdit(id: number): void {
     this.editableId = id;
   }
@@ -53,5 +56,20 @@ export class TodoListComponent {
   stopEdit(task: any, title: string): void {
     this.editableId = null;
     this.updateTask(task, title);
+  }
+
+  onSearchChange() {
+    //la búsqueda se realizará al hacer clic
+  }
+
+  // Función para filtrar la lista de tareas en función del término de búsqueda
+  filterTasks(): any[] {
+    if (!this.searchTerm) {
+      return this.tasks;
+    }
+  
+    return this.tasks.filter((task) =>
+      task.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 }
